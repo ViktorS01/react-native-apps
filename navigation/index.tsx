@@ -1,8 +1,3 @@
-/**
- * If you are not familiar with React Navigation, refer to the "Fundamentals" guide:
- * https://reactnavigation.org/docs/getting-started
- *
- */
 import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
@@ -19,6 +14,16 @@ import TabTwoScreen from '../screens/TabTwoScreen';
 import TabTreeScreen from '../screens/TabTreeScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import Calculator from "../screens/Calculator";
+import { createNavigationContainerRef } from '@react-navigation/native';
+
+export const navigationRef = createNavigationContainerRef()
+
+export function navigate(name: any, params: any) {
+    if (navigationRef.isReady()) {
+        navigationRef.navigate(name, params);
+    }
+}
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -30,10 +35,6 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
   );
 }
 
-/**
- * A root stack navigator is often used for displaying modals on top of all other content.
- * https://reactnavigation.org/docs/modal
- */
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
@@ -42,16 +43,16 @@ function RootNavigator() {
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
+        <Stack.Screen name="Menu" component={ModalScreen} />
       </Stack.Group>
+      <Stack.Screen name="Calculator" component={Calculator} options={{title: 'Калькулятор',}}/>
+      <Stack.Screen name="Converter" component={Calculator} options={{title: 'Конвертер',}}/>
+      <Stack.Screen name="ToDo" component={Calculator} options={{title: 'Заметки',}}/>
+      <Stack.Screen name="Draw" component={Calculator} options={{title: 'Рисовалка',}}/>
     </Stack.Navigator>
   );
 }
 
-/**
- * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
- * https://reactnavigation.org/docs/bottom-tab-navigator
- */
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
@@ -67,11 +68,11 @@ function BottomTabNavigator() {
         name="TabOne"
         component={TabOneScreen}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Авторизация',
+          tabBarIcon: ({ color }) => <TabBarIcon name="sign-in" color={color} />,
           headerRight: () => (
             <Pressable
-              onPress={() => navigation.navigate('Modal')}
+              onPress={() => navigation.navigate('Menu')}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}>
@@ -89,25 +90,22 @@ function BottomTabNavigator() {
         name="TabTwo"
         component={TabTwoScreen}
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Главный экран',
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         }}
       />
-        <BottomTab.Screen
-            name="TabTree"
-            component={TabTreeScreen}
-            options={{
-                title: 'Статьи',
-                tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-            }}
-        />
+      <BottomTab.Screen
+          name="TabTree"
+          component={TabTreeScreen}
+          options={{
+              title: 'Статьи',
+              tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
+          }}
+      />
     </BottomTab.Navigator>
   );
 }
 
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
