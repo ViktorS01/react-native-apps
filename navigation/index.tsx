@@ -15,15 +15,10 @@ import TabTreeScreen from '../screens/TabTreeScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import Calculator from "../screens/Calculator";
-import { createNavigationContainerRef } from '@react-navigation/native';
+import ToDo from "../screens/ToDo";
+import Converter from "../screens/Converter";
+import Draw from "../screens/Draw";
 
-export const navigationRef = createNavigationContainerRef()
-
-export function navigate(name: any, params: any) {
-    if (navigationRef.isReady()) {
-        navigationRef.navigate(name, params);
-    }
-}
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -46,9 +41,19 @@ function RootNavigator() {
         <Stack.Screen name="Menu" component={ModalScreen} />
       </Stack.Group>
       <Stack.Screen name="Calculator" component={Calculator} options={{title: 'Калькулятор',}}/>
-      <Stack.Screen name="Converter" component={Calculator} options={{title: 'Конвертер',}}/>
-      <Stack.Screen name="ToDo" component={Calculator} options={{title: 'Заметки',}}/>
-      <Stack.Screen name="Draw" component={Calculator} options={{title: 'Рисовалка',}}/>
+      <Stack.Screen name="Converter" component={Converter} options={{title: 'Конвертер',}}/>
+      <Stack.Screen name="ToDo" component={ToDo} options={{title: 'Заметки',}}/>
+      <Stack.Screen name="Draw" component={Draw} options={{title: 'Рисовалка',}}/>
+      <Stack.Screen name="TabTwo" component={TabTwoScreen}
+            options={{
+                title: 'Главный экран'
+            }}
+      />
+      <Stack.Screen name="TabTree" component={TabTreeScreen}
+            options={{
+                title: 'Статьи',
+            }}
+        />
     </Stack.Navigator>
   );
 }
@@ -85,22 +90,6 @@ function BottomTabNavigator() {
             </Pressable>
           ),
         })}
-      />
-      <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoScreen}
-        options={{
-          title: 'Главный экран',
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
-        }}
-      />
-      <BottomTab.Screen
-          name="TabTree"
-          component={TabTreeScreen}
-          options={{
-              title: 'Статьи',
-              tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
-          }}
       />
     </BottomTab.Navigator>
   );
