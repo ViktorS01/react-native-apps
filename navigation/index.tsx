@@ -37,9 +37,7 @@ function RootNavigator() {
     <Stack.Navigator>
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Menu" component={ModalScreen} />
-      </Stack.Group>
+      <Stack.Screen name="Menu" component={ModalScreen} />
       <Stack.Screen name="Calculator" component={Calculator} options={{title: 'Калькулятор',}}/>
       <Stack.Screen name="Converter" component={Converter} options={{title: 'Конвертер',}}/>
       <Stack.Screen name="ToDo" component={ToDo} options={{title: 'Заметки',}}/>

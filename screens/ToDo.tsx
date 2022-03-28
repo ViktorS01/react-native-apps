@@ -1,9 +1,8 @@
-import {RootTabScreenProps} from "../types";
 import React from "react";
 import {View} from "../components/Themed";
 import {StyleSheet} from "react-native";
 
-export default function ToDo({ navigation }: RootTabScreenProps<'ToDo'>) {
+export default function ToDo() {
 
     return (
         <View style={styles.container}>

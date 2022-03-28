@@ -1,9 +1,8 @@
 import {ImageBackground, ScrollView, StyleSheet} from 'react-native';
 import { Text, View } from '../components/Themed';
 import React from "react";
-import {RootTabScreenProps} from "../types";
 
-const TabTreeScreen = ({ navigation }: RootTabScreenProps<'TabTree'>) => {
+const TabTreeScreen = () => {
     const staticImage1 = require("../assets/images/news.png");
 
     return (

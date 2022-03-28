@@ -16,7 +16,7 @@ export type RootStackParamList = {
   Converter: undefined;
   ToDo: undefined;
   Draw: undefined;
-  TabTwo: undefined;
+  TabTwo: {name: string, gender: string, age: string};
   TabTree: undefined;
 };
 
@@ -27,13 +27,9 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> = Nati
 
 export type RootTabParamList = {
   TabOne: undefined;
+  Menu: undefined;
   TabTwo: {name: string, gender: string, age: string};
   TabTree: undefined;
-  Menu: undefined;
-  Calculator: undefined;
-  Converter: undefined;
-  ToDo: undefined;
-  Draw: undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<

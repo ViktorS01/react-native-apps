@@ -1,9 +1,8 @@
-import {RootTabScreenProps} from "../types";
 import React from "react";
 import {View} from "../components/Themed";
 import {StyleSheet} from "react-native";
 
-export default function Converter({ navigation }: RootTabScreenProps<'Converter'>) {
+export default function Converter() {
 
     return (
         <View style={styles.container}>

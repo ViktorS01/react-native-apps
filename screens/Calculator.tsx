@@ -1,9 +1,8 @@
-import {RootTabScreenProps} from "../types";
 import React from "react";
 import {View} from "../components/Themed";
 import {StyleSheet} from "react-native";
 
-export default function Calculator({ navigation }: RootTabScreenProps<'Calculator'>) {
+export default function Calculator() {
 
     return (
         <View style={styles.container}>
