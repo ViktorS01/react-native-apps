@@ -18,6 +18,9 @@ import Calculator from "../screens/Calculator";
 import ToDo from "../screens/ToDo";
 import Converter from "../screens/Converter";
 import Draw from "../screens/Draw";
+import AddToDo from "../screens/AddToDo";
+import Tags from "../screens/Tags";
+import AddTag from "../screens/AddTag";
 
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -42,6 +45,9 @@ function RootNavigator() {
       <Stack.Screen name="Converter" component={Converter} options={{title: 'Конвертер',}}/>
       <Stack.Screen name="ToDo" component={ToDo} options={{title: 'Заметки',}}/>
       <Stack.Screen name="Draw" component={Draw} options={{title: 'Рисовалка',}}/>
+      <Stack.Screen name="AddToDo" component={AddToDo} options={{title: 'Добавение заметки',}}/>
+      <Stack.Screen name="AddTag" component={AddTag} options={{title: 'Добавение тега',}}/>
+      <Stack.Screen name="Tags" component={Tags} options={{title: 'Теги',}}/>
       <Stack.Screen name="TabTwo" component={TabTwoScreen}
             options={{
                 title: 'Главный экран'
@@ -69,7 +75,7 @@ function BottomTabNavigator() {
       }}>
       <BottomTab.Screen
         name="TabOne"
-        component={TabOneScreen}
+        component={ToDo}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
           title: 'Авторизация',
           tabBarIcon: ({ color }) => <TabBarIcon name="sign-in" color={color} />,

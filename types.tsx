@@ -14,6 +14,9 @@ export type RootStackParamList = {
   NotFound: undefined;
   Calculator: undefined;
   Converter: undefined;
+  AddToDo: undefined;
+  Tags: undefined;
+  AddTag: undefined;
   ToDo: undefined;
   Draw: undefined;
   TabTwo: {name: string, gender: string, age: string};
@@ -29,7 +32,12 @@ export type RootTabParamList = {
   TabOne: undefined;
   Menu: undefined;
   TabTwo: {name: string, gender: string, age: string};
+  PersonalToDo: undefined,
+  AddToDo: undefined,
   TabTree: undefined;
+  AddTag: undefined;
+  Tags: undefined;
+  ToDo: undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
