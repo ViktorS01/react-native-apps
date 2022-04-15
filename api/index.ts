@@ -9,7 +9,7 @@ export const useApi = () => {
 
     const getAllTags = () => {
         return  axios.get('http://192.168.84.178:8000/api/tags')
-            .then((res) => {return [{text: 'Выбрать', id: -1}, ...res.data.data]})
+            .then((res) => {return [...res.data.data]})
             .catch((err) => console.log(err.data))
     }
 

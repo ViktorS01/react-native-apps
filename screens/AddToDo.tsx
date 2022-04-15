@@ -1,38 +1,41 @@
 import React, {useContext, useEffect, useState} from "react";
 import {Text, View} from "../components/Themed";
-import {Picker, StyleSheet, TextInput} from "react-native";
+import {Pressable, StyleSheet, TextInput} from "react-native";
 import {Button} from "react-native-paper";
-import {ITag} from "../models";
 import {RootTabScreenProps} from "../types";
 import {useApi} from "../api";
 import {ToDoContext} from "../App";
+import {MonoText} from "../components/StyledText";
 
 export default function AddToDo({ navigation }: RootTabScreenProps<'AddToDo'>) {
     const [date, setDate] = useState<string>('')
     const [title, setTitle] = useState<string>('')
     const [text, setText] = useState<string>('')
-    const [currentTagsList, setCurrentTagsList] = useState<ITag[][]>([])
+    const [currentTagsList, setCurrentTagsList] = useState<Array<{isActive: boolean, text: string, id: number}>>([])
     const [selectTag, setSelectTag] = useState<string[]>([])
-    const [colTag, setColTag] = useState<number[]>([1])
-    const [newTagsList, setNewTagsList] = useState< ITag[]>([])
 
     const {addNote, getAllNotes} = useApi()
     const { setNotes, tags } = useContext(ToDoContext);
 
     useEffect(() => {
-        setCurrentTagsList([tags])
+        const newTags = tags.map(item => {
+            return {isActive: false, text: item.text, id: item.id}
+        })
+        setCurrentTagsList(newTags)
     }, [])
 
-    const loadTags = (index: number) => {
-        if (currentTagsList[index]){
-            return currentTagsList[index].map((tag, index) => (
-                <Picker.Item
-                    label={tag.text}
-                    key={index}
-                />
-            ))
-        }
+    const handleActive = (id: number) => {
+        const newTags = currentTagsList.map(item => item.id === id ? {...item, isActive: !item.isActive} : item)
+        setCurrentTagsList(newTags)
+        const newSelectTags: string[] = []
+        newTags.forEach(item => {
+            if (item.isActive){
+                newSelectTags.push(item.text)
+            }
+        })
+        setSelectTag(newSelectTags)
     }
+
 
     const addToDo = async () => {
         const newDate: string = date === '' ? new Date().toString() : date
@@ -41,52 +44,24 @@ export default function AddToDo({ navigation }: RootTabScreenProps<'AddToDo'>) {
         await navigation.navigate('ToDo')
     }
 
-    const addTag = () => {
-        setNewTagsList(currentTagsList[currentTagsList.length - 1].filter((item) => item.text !== selectTag[selectTag.length - 1]))
-    }
-
-    const changeValue = (itemValue: string, index: number) => {
-        const newSelectTag = selectTag
-        newSelectTag[index] = itemValue
-        setSelectTag(newSelectTag)
-    }
-
-    useEffect(() => {
-        if (newTagsList.length > 1){
-            setCurrentTagsList([...currentTagsList, [...newTagsList]])
-            const newColTag = colTag
-            newColTag.push(1)
-            setColTag(newColTag)
-        }
-    }, [newTagsList])
-
     return (
         <View style={styles.container}>
-            <Text style={styles.inputText}>Дата:</Text>
+            <Text>Дата:</Text>
             <TextInput style={styles.input} value={date} onChangeText={setDate}/>
-            <Text style={styles.inputText}>Заголовок:</Text>
+            <Text>Заголовок:</Text>
             <TextInput style={styles.input} value={title} onChangeText={setTitle}/>
-            <Text style={styles.inputText}>Текст:</Text>
+            <Text>Текст:</Text>
             <TextInput style={styles.input} value={text} onChangeText={setText}/>
-            <Text style={styles.inputText}>{colTag.length !== 0 ? 'Теги:' : ''}</Text>
-            {colTag.map((item, index) => {
-                return <Picker
-                    style={styles.picker}
-                    selectedValue={selectTag[index]}
-                    key={index}
-                    onValueChange={(itemValue) =>
-                        changeValue(itemValue, index)
-                    }>
-                    {loadTags(index)}
-                </Picker>
-            })}
-            <Button
-                mode="contained"
-                style={{marginTop: 20}}
-                onPress={() => addTag()}
-                color={'purple'}>
-                Добавить тег
-            </Button>
+            <Text>Теги:</Text>
+            <View style={styles.tags}>
+                {currentTagsList.map((item, index) => {
+                    return <Pressable onPress={() => handleActive(item.id)} key={index}>
+                        <View style={item.isActive ? styles.activeTag : styles.tag} key={index}>
+                        <MonoText style={item.isActive ? {color: 'white'} : {color: 'black'}}>{item.text}</MonoText>
+                    </View>
+                    </Pressable>
+                })}
+            </View>
             <Button
                 mode="contained"
                 style={{marginTop: 20}}
@@ -104,9 +79,6 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         paddingHorizontal: 20,
     },
-    inputText: {
-
-    },
     input: {
         borderStyle: 'solid',
         borderColor: 'purple',
@@ -115,16 +87,28 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginVertical: 15,
     },
-    inputEnd: {
-        borderStyle: 'solid',
-        borderColor: 'purple',
-        borderWidth: 1,
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        marginVertical: 15,
-        height: 200,
-    },
-    picker: {
+    tags: {
+        display: "flex",
+        alignItems: "center",
+        flexDirection: 'row',
+        flexWrap: "wrap",
         marginTop: 10,
+    },
+    tag: {
+        padding: 10,
+        borderWidth: 1,
+        borderColor: 'purple',
+        borderRadius: 5,
+        marginRight: 10,
+        marginBottom: 10,
+    },
+    activeTag: {
+        padding: 10,
+        borderWidth: 1,
+        borderColor: 'purple',
+        borderRadius: 5,
+        marginRight: 10,
+        marginBottom: 10,
+        backgroundColor: 'purple',
     },
 });

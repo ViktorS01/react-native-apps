@@ -24,7 +24,7 @@ export default function Tags({ navigation }: RootTabScreenProps<'Tags'>) {
             </View>
             <View style={styles.tags}>
                 {tags.map((item, index) => {
-                    return item.id !== -1 && <View style={styles.tag} key={index}>
+                    return item.id !== 1000 && <View style={styles.tag} key={index}>
                         <MonoText>{item.text}</MonoText>
                         <Pressable style={styles.close} onPress={() => deleteItem(item.id)}>
                             <View><MonoText style={{color: 'purple', fontSize: 12, fontWeight: 'bold'}}>x</MonoText></View>
