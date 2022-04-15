@@ -43,8 +43,8 @@ function RootNavigator() {
       <Stack.Screen name="Menu" component={ModalScreen} />
       <Stack.Screen name="Calculator" component={Calculator} options={{title: 'Калькулятор',}}/>
       <Stack.Screen name="Converter" component={Converter} options={{title: 'Конвертер',}}/>
-      <Stack.Screen name="ToDo" component={ToDo} options={{title: 'Заметки',}}/>
       <Stack.Screen name="Draw" component={Draw} options={{title: 'Рисовалка',}}/>
+      <Stack.Screen name="ToDo" component={ToDo} options={{title: 'Заметки',}}/>
       <Stack.Screen name="AddToDo" component={AddToDo} options={{title: 'Добавение заметки',}}/>
       <Stack.Screen name="AddTag" component={AddTag} options={{title: 'Добавение тега',}}/>
       <Stack.Screen name="Tags" component={Tags} options={{title: 'Теги',}}/>
@@ -75,7 +75,7 @@ function BottomTabNavigator() {
       }}>
       <BottomTab.Screen
         name="TabOne"
-        component={ToDo}
+        component={TabOneScreen}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
           title: 'Авторизация',
           tabBarIcon: ({ color }) => <TabBarIcon name="sign-in" color={color} />,

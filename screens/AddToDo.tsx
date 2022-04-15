@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Text, View} from "../components/Themed";
 import {Picker, StyleSheet, TextInput} from "react-native";
 import {Button} from "react-native-paper";
-import axios from "axios";
 import {ITag} from "../models";
 import {RootTabScreenProps} from "../types";
+import {useApi} from "../api";
+import {ToDoContext} from "../App";
 
 export default function AddToDo({ navigation }: RootTabScreenProps<'AddToDo'>) {
     const [date, setDate] = useState<string>('')
@@ -12,14 +13,14 @@ export default function AddToDo({ navigation }: RootTabScreenProps<'AddToDo'>) {
     const [text, setText] = useState<string>('')
     const [currentTagsList, setCurrentTagsList] = useState<ITag[][]>([])
     const [selectTag, setSelectTag] = useState<string[]>([])
-    const [colTag, setColTag] = useState<number[]>([])
+    const [colTag, setColTag] = useState<number[]>([1])
     const [newTagsList, setNewTagsList] = useState< ITag[]>([])
 
+    const {addNote, getAllNotes} = useApi()
+    const { setNotes, tags } = useContext(ToDoContext);
 
     useEffect(() => {
-        axios.get('http://192.168.84.178:8000/api/tags')
-            .then((res) => setCurrentTagsList([res.data.data]))
-            .catch((err) => console.log(err.data))
+        setCurrentTagsList([tags])
     }, [])
 
     const loadTags = (index: number) => {
@@ -33,13 +34,11 @@ export default function AddToDo({ navigation }: RootTabScreenProps<'AddToDo'>) {
         }
     }
 
-    const click = () => {
+    const addToDo = async () => {
         const newDate: string = date === '' ? new Date().toString() : date
-        axios.post('http://192.168.84.178:8000/api/note', {text, title, date: newDate, tag: selectTag.join(', ')})
-            .then((res) => console.log(res.data))
-            .then(() => navigation.navigate('ToDo'))
-            .catch((err) => console.log(err.data))
-
+        await addNote(text, title, newDate, selectTag)
+        await getAllNotes().then((res) => setNotes(res));
+        await navigation.navigate('ToDo')
     }
 
     const addTag = () => {
@@ -91,7 +90,7 @@ export default function AddToDo({ navigation }: RootTabScreenProps<'AddToDo'>) {
             <Button
                 mode="contained"
                 style={{marginTop: 20}}
-                onPress={() => click()}
+                onPress={() => addToDo()}
                 color={'purple'}>
                 Сохранить
             </Button>

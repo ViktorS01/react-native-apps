@@ -1,18 +1,20 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {Text, View} from "../components/Themed";
 import {StyleSheet, TextInput} from "react-native";
 import {Button} from "react-native-paper";
-import axios from "axios";
 import {RootTabScreenProps} from "../types";
+import {useApi} from "../api";
+import {ToDoContext} from "../App";
 
 export default function AddTag({ navigation }: RootTabScreenProps<'AddTag'>) {
     const [newTag, setNewTag] = useState<string>('')
+    const { setTags } = useContext(ToDoContext);
+    const {addTag, getAllTags} = useApi()
 
-    const click = () => {
-        axios.post('http://192.168.84.178:8000/api/tag', {text: newTag})
-            .then((res) => console.log(res.data))
-            .catch((err) => console.log(err.data))
-        navigation.navigate('Tags')
+    const click = async () => {
+        await addTag(newTag)
+        await getAllTags().then((res) => setTags(res));
+        await navigation.navigate('Tags')
     }
 
     return (

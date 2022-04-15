@@ -1,20 +1,21 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext} from "react";
 import {View} from "../components/Themed";
-import {StyleSheet} from "react-native";
+import {Pressable, StyleSheet} from "react-native";
 import {Button} from "react-native-paper";
 import {MonoText} from "../components/StyledText";
 import {RootTabScreenProps} from "../types";
-import axios from "axios";
-import {ITag} from "../models";
+import {ToDoContext} from "../App";
+import {useApi} from "../api";
 
 export default function Tags({ navigation }: RootTabScreenProps<'Tags'>) {
-    const [tags, setTags] = useState<ITag[]>([])
+    const {deleteTag, getAllTags} = useApi()
+    const { setTags, tags } = useContext(ToDoContext);
 
-    useEffect(() => {
-        axios.get('http://192.168.84.178:8000/api/tags')
-            .then((res) => setTags(res.data.data))
-            .catch((err) => console.log(err.data))
-    }, [])
+    const deleteItem = async (id: number) => {
+        await deleteTag(id)
+        // @ts-ignore
+        await getAllTags().then((res) => setTags(res));
+    }
 
     return (
         <View style={styles.container}>
@@ -23,8 +24,11 @@ export default function Tags({ navigation }: RootTabScreenProps<'Tags'>) {
             </View>
             <View style={styles.tags}>
                 {tags.map((item, index) => {
-                    return <View style={styles.tag} key={index}>
+                    return item.id !== -1 && <View style={styles.tag} key={index}>
                         <MonoText>{item.text}</MonoText>
+                        <Pressable style={styles.close} onPress={() => deleteItem(item.id)}>
+                            <View><MonoText style={{color: 'purple', fontSize: 12, fontWeight: 'bold'}}>x</MonoText></View>
+                        </Pressable>
                     </View>
                 })}
             </View>
@@ -50,15 +54,22 @@ const styles = StyleSheet.create({
         alignItems: "center",
         flexDirection: 'row',
         flexWrap: "wrap",
-        gap: 10,
     },
     tag: {
         padding: 10,
         borderWidth: 1,
         borderColor: 'purple',
         borderRadius: 5,
+        marginRight: 10,
+        marginBottom: 10,
+        position: 'relative',
     },
     top: {
         marginBottom: 20,
     },
+    close: {
+        position: 'absolute',
+        right: 4,
+        top: 0,
+    }
 });
