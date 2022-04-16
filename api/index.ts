@@ -37,12 +37,26 @@ export const useApi = () => {
             .catch((err) => console.log(err.data))
     }
 
+    const getNote = (id: number) => {
+        return axios.get(`http://192.168.84.178:8000/api/note/${id}`)
+            .then((res) => {return res.data.data})
+            .catch((res) => console.log(res.data))
+    }
+
+    const updateNote = (text: string, title: string, newDate: string, selectTag: string[], id: number) => {
+        return axios.patch(`http://192.168.84.178:8000/api/note/${id}`, {text, title, date: newDate, tag: selectTag.join(', ')})
+            .then((res) => console.log(res.data))
+            .catch((err) => console.log(err.data))
+    }
+
     return {
         getAllNotes,
         getAllTags,
         deleteNote,
         deleteTag,
         addNote,
-        addTag
+        addTag,
+        getNote,
+        updateNote
     }
 }

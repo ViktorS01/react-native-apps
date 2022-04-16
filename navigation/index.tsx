@@ -21,6 +21,7 @@ import Draw from "../screens/Draw";
 import AddToDo from "../screens/AddToDo";
 import Tags from "../screens/Tags";
 import AddTag from "../screens/AddTag";
+import EditToDo from "../screens/EditToDo";
 
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -46,6 +47,7 @@ function RootNavigator() {
       <Stack.Screen name="Draw" component={Draw} options={{title: 'Рисовалка',}}/>
       <Stack.Screen name="ToDo" component={ToDo} options={{title: 'Заметки',}}/>
       <Stack.Screen name="AddToDo" component={AddToDo} options={{title: 'Добавение заметки',}}/>
+      <Stack.Screen name="EditToDo" component={EditToDo} options={{title: 'Изменение заметки',}}/>
       <Stack.Screen name="AddTag" component={AddTag} options={{title: 'Добавение тега',}}/>
       <Stack.Screen name="Tags" component={Tags} options={{title: 'Теги',}}/>
       <Stack.Screen name="TabTwo" component={TabTwoScreen}

@@ -17,6 +17,7 @@ export type RootStackParamList = {
   AddToDo: undefined;
   Tags: undefined;
   AddTag: undefined;
+  EditToDo: {id: number};
   ToDo: undefined;
   Draw: undefined;
   TabTwo: {name: string, gender: string, age: string};
@@ -36,6 +37,7 @@ export type RootTabParamList = {
   AddToDo: undefined,
   TabTree: undefined;
   AddTag: undefined;
+  EditToDo: {id: number};
   Tags: undefined;
   ToDo: undefined;
 };

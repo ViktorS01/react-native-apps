@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import {View} from "../components/Themed";
-import {ScrollView, StyleSheet} from "react-native";
+import {Pressable, ScrollView, StyleSheet} from "react-native";
 import { Button } from 'react-native-paper'
 import {RootTabScreenProps} from "../types";
 import {ToDoItem} from "../components/ToDoItem";
@@ -32,7 +32,9 @@ export default function ToDo({ navigation }: RootTabScreenProps<'ToDo'>) {
             </View>
             <ScrollView style={styles.main}>
                 {toDo.notes.map((item, index) => {
-                    return <ToDoItem date={item.date} title={item.title} text={item.text} tag={item.tag} key={index} id={item.id} />
+                    return <Pressable onPress={ () => navigation.navigate('EditToDo', {id: item.id})} key={index}>
+                        <ToDoItem date={item.date} title={item.title} text={item.text} tag={item.tag} id={item.id} />
+                    </Pressable>
                 })}
             </ScrollView>
         </View>
