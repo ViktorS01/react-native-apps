@@ -88,7 +88,7 @@ function BottomTabNavigator() {
                 opacity: pressed ? 0.5 : 1,
               })}>
               <FontAwesome
-                name="info-circle"
+                name="list"
                 size={25}
                 color={Colors[colorScheme].text}
                 style={{ marginRight: 15 }}

@@ -41,7 +41,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
           <RadioButton.Item label="Мужской" value="male" color={'purple'}/>
           <RadioButton.Item label="Женский" value="female" color={'purple'}/>
         </RadioButton.Group>
-        <Button mode="contained" style={{marginVertical: 15, marginHorizontal: 15, borderRadius: 10}}
+        <Button mode="contained" style={{marginVertical: 15, marginHorizontal: 15, borderRadius: 10, backgroundColor: "purple"}}
                 onPress={() => checkInputs()}>
           Войти
         </Button>
@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 'auto',
     marginRight: 'auto',
+    marginBottom: 20,
   },
   separator: {
     marginVertical: 30,
